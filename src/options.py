@@ -446,8 +446,20 @@ class Options:
 
         logger.info(message)
 
-    def parse(self):
-        opt = self.parser.parse_args()
+    @staticmethod
+    def from_dict(**kwargs):
+        opt = Options()
+
+        if 'retrieve_only' not in kwargs:
+            opt.retrieve_only = False
+
+        for k, v in kwargs.items():
+            setattr(opt, k, v)
+
+        return opt
+
+    def parse(self, *args):
+        opt = self.parser.parse_args(args if args else None)
         if opt.closed_book:  # override flags to enable closed book mode
             opt.n_context = 1
             opt.retriever_n_context = 1
