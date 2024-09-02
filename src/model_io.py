@@ -19,6 +19,8 @@ from src.atlas import Atlas
 from src.retrievers import Contriever, DualEncoderRetriever, UntiedDualEncoderRetriever
 from src.util import cast_to_precision, set_dropout, set_optim
 
+import ipdb
+
 Number = Union[float, int]
 
 logger = logging.getLogger(__name__)
@@ -146,7 +148,8 @@ def load_atlas_model(dir_path, opt, reset_params=False, eval_only=False):
     if not reset_params:
         optimizer, scheduler, retr_optimizer, retr_scheduler = set_optim(opt_checkpoint, model)
         scheduler.load_state_dict(checkpoint["scheduler"])
-        optimizer.load_state_dict(checkpoint["optimizer"])
+        if checkpoint['optimizer'] is not None:
+            optimizer.load_state_dict(checkpoint["optimizer"])
     else:
         optimizer, scheduler, retr_optimizer, retr_scheduler = set_optim(opt, model)
 

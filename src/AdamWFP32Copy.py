@@ -8,7 +8,8 @@ import torch
 from torch.optim import adamw as _adamw
 
 AdamW = _adamw.AdamW
-adamw = _adamw.F.adamw
+# adamw = _adamw.F.adamw
+adamw = _adamw.adamw
 
 
 class AdamWFP32Copy(AdamW):

@@ -449,12 +449,18 @@ class Options:
     @staticmethod
     def from_dict(**kwargs):
         opt = Options()
+        opt.add_modeling_options()
+        opt.add_optim_options()
+        opt.add_index_options()
 
-        if 'retrieve_only' not in kwargs:
-            opt.retrieve_only = False
+        for p in opt.parser._actions:
+            if p.dest not in kwargs:
+                setattr(opt, p.dest, p.default)
 
         for k, v in kwargs.items():
             setattr(opt, k, v)
+
+        opt.device = 'cuda'
 
         return opt
 
